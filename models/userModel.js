@@ -1,4 +1,9 @@
-const getConnection = require('./connection')
+const getConnection = require('./connection');
+
+const getByEmail = async (email) => {
+  const db = await getConnection();
+  return getUser = await db.collection('users').findOne({ email });
+}
 
 const createUser= async (name, password, email) => {
   const db = await getConnection();
@@ -10,4 +15,5 @@ const createUser= async (name, password, email) => {
   return { userId: _id , name, email, password }
 };
 
-module.exports = { createUser };
+
+module.exports = { createUser, getByEmail };
