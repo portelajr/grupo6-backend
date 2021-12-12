@@ -6,10 +6,8 @@ const createUser= async (name, password, email) => {
   const user = await db.collection('users')
     .insertOne({ name, email, password })
   
-  const { id: insetedId } = user;
-
-  return { id, name, email };
+  const { _id } = user;
+  return { userId: _id , name, email, password }
 };
 
 module.exports = { createUser };
-
