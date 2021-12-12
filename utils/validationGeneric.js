@@ -1,0 +1,1 @@
+// const validaInput = (campo) => trata.

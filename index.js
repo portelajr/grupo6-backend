@@ -8,5 +8,5 @@ app.get('/home', (_req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log('Aplicação ouvindo na porta 3001');
+    console.log('Aplicação ouvindo na porta 3000');
 });

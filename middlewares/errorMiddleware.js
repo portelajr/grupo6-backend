@@ -1,0 +1,1 @@
+// const errorHandler = (err) => retorno de erro genérico.
