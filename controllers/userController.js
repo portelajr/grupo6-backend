@@ -12,7 +12,7 @@ const createUser = async (req, res, next ) => {
 };
 
 const rotaTeste = async (_req, res) => {
-  return res.status(200).json({ message: 'Autenticado!'})
+  return res.status(200).json({ message: 'Autenticado!'})  // teste
 };
 
 module.exports = { createUser, rotaTeste }
