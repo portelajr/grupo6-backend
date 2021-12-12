@@ -6,7 +6,7 @@ const userModel = require('../models/userModel');
 
 const loginUser = async (payload) => {
   const { email, password } = payload;
-  console.log(payload);
+
   await loginEntries(email, password);
 
   const user = await userModel.getByEmail(email);
