@@ -5,10 +5,14 @@ const createUser = async (req, res, next ) => {
   
   try {
     const user = await userService.createUser(name, password, email);
-    return res.status(200).json({ user });
+    return res.status(201).json({ user });
   } catch (err) {
     return next(err);
   }
 };
 
-module.exports = { createUser }
+const rotaTeste = async (_req, res) => {
+  return res.status(200).json({ message: 'Autenticado!'})  // teste
+};
+
+module.exports = { createUser, rotaTeste }
