@@ -1,6 +1,6 @@
 const userModel = require('../models/userModel');
 const newError = require('../utils/errorGenerator');
-const userEntries = require('../utils/validateUser');
+const { userEntries } = require('../utils/validateUser');
 
 const createUser = async (name, password, email) => {
   userEntries(name, password, email);
