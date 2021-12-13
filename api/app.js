@@ -13,7 +13,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-app.get('/', eventController.getAll);
+app.get('/event', eventController.getAll);
 app.get('/event/:id', eventController.getById)
 app.post('/event', authMiddleware, eventController.createEvent);
 app.post('/user', userController.createUser);
