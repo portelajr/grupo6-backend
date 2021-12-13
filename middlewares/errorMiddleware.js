@@ -6,7 +6,7 @@ const handleError = (err, _req, res, _next) => {
   if (err.message) {
       return res.status(500).json({ message: err.message });
   }
-
+  console.log(err)
   return res.status(500).json({ message: 'Internal error' });
 };
     
