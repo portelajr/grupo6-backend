@@ -13,7 +13,9 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.post('/user', userController.createUser);
-app.post('/login', loginController.loginUser)
+app.post('/login', loginController.loginUser);
+app.get('/user', authMiddleware, userController.getUserByToken);
+
 app.get('/user', authMiddleware, userController.rotaTeste);  // rota teste com autenticação
 app.use(errorMiddleware);
 

@@ -11,7 +11,7 @@ chai.use(chaiHttp);
 
 const DB_NAME = 'Hackapp';
 
-describe('POST /users', () => {
+describe('POST /user', () => {
   const NAME_REQUIRED = { message: 'Name is required' };
   const EMAIL_REQUIRED = { message: 'Email field is required' };
   const PASSWORD_REQUIRED = { message: 'Password field is required' };
@@ -156,6 +156,63 @@ describe('POST /users', () => {
       }
 
       expect(response.body).to.be.deep.equal({ user });
+    });
+  });
+});
+
+describe.only('POST /users', () => {
+  const NAME_REQUIRED = { message: 'Name is required' };
+  const EMAIL_REQUIRED = { message: 'Email field is required' };
+  const PASSWORD_REQUIRED = { message: 'Password field is required' };
+  const EMAIL_IN_USE = { message: 'Email already in use' };
+  
+  let connectionMock;
+  let db;
+
+  before(async () => {
+    connectionMock = await connection();
+
+    sinon.stub(MongoClient, 'connect').resolves(connectionMock);
+
+    db = connectionMock.db(DB_NAME);
+
+    await db.collection('users').insertOne({
+      name: "Kevin",
+      email: "email@email.com",
+      password: "123456",
+    });
+  });
+
+  after(async () => {
+    MongoClient.connect.restore();
+    await db.collection('users').deleteMany({});
+  });
+
+  describe(('Quando os campos são válidos'), () => {
+    let response = {};
+    
+    before(async () => {
+      const {token} = await chai.request(server)
+        .post('/login')
+        .send({
+          email: "email@email.com",
+          password: "123456",
+        })
+        .then((res) => res.body.token)
+
+      response = await chai.request(server)
+        .get('/user')
+        .set('authorization', token)
+    });
+
+    it('Retorna status 201', () => {
+      expect(response).to.have.status(201);
+    });
+
+    it('Retorna objeto com mensagem de erro "Invalid entries. Try again."', async () => {
+      const dbRecipe = await db.collection('recipes').findOne({ name: "Frango" });
+      const recipe = { ...dbRecipe, _id: dbRecipe._id.toString() }
+      expect(response.body).to.be.deep.equal({ recipe });
     });
   });
 });
