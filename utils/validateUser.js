@@ -30,8 +30,8 @@ const emailValidation = (email) => {
 
 const userEntries = (name, password, email) => {
   nameValidation(name);
-  passwordValidation(password);
   emailValidation(email);
+  passwordValidation(password);
 };
 
 const loginEntries = (email, password) => {
