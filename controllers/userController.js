@@ -11,8 +11,12 @@ const createUser = async (req, res, next ) => {
   }
 };
 
+const getUserByToken = async (req, res, next ) => {
+  return res.status(200).json(req.user);
+};
+
 const rotaTeste = async (_req, res) => {
   return res.status(200).json({ message: 'Autenticado!'})  // teste
 };
 
-module.exports = { createUser, rotaTeste }
+module.exports = { createUser, rotaTeste, getUserByToken }
