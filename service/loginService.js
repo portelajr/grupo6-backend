@@ -15,8 +15,15 @@ const loginUser = async (payload) => {
     const err = newError(400, 'Usuário inválido')
     throw err;
   }
+
+  if (user.password !== password) {
+    const err = newError(400, 'Senha inválida')
+    throw err;
+  }
+
+  const userWithoutPassword = { name: user.name, email }
   
-  return tokenGenerator(user);
+  return { token: tokenGenerator(userWithoutPassword), user: userWithoutPassword };
 };
   
 module.exports = { loginUser };

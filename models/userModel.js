@@ -10,9 +10,9 @@ const createUser= async (name, password, email) => {
   
   const user = await db.collection('users')
     .insertOne({ name, email, password })
-  
-  const { _id } = user;
-  return { userId: _id , name, email, password }
+
+  const { insertedId } = user;
+  return { userId: insertedId , name, email, password }
 };
 
 
