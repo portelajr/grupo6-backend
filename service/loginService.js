@@ -1,13 +1,13 @@
 // const validationsLOgin
 const newError = require('../utils/errorGenerator');
 const tokenGenerator = require('../utils/tokenGenerator');
-const loginEntries = require('../utils/validateUser');
+const validation = require('../utils/validateUser');
 const userModel = require('../models/userModel');
 
 const loginUser = async (payload) => {
   const { email, password } = payload;
 
-  await loginEntries(email, password);
+  validation.loginEntries(email, password);
 
   const user = await userModel.getByEmail(email);
 
