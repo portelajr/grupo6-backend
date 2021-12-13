@@ -14,6 +14,7 @@ const DB_NAME = 'Hackapp';
 describe('POST /user', () => {
   const NAME_REQUIRED = { message: 'Name is required' };
   const EMAIL_REQUIRED = { message: 'Email field is required' };
+  const INVALID_EMAIL = { message: 'Invalid email' };
   const PASSWORD_REQUIRED = { message: 'Password field is required' };
   const EMAIL_IN_USE = { message: 'Email already in use' };
   
@@ -67,6 +68,27 @@ describe('POST /user', () => {
 
     it('Retorna objeto com mensagem de erro "Email field is required"', () => {
       expect(response.body).to.be.deep.equal(EMAIL_REQUIRED);
+    });
+  });
+
+  describe(('Quando o campo "email" é inválido'), () => {
+    let response = {};
+    
+    before(async () => {
+      response = await chai.request(server)
+        .post('/user')
+        .send({
+          name: 'Kevin',
+          email: 'emailemail.com',
+        })
+    });
+
+    it('Retorna status 400', () => {
+      expect(response).to.have.status(400);
+    });
+
+    it('Retorna objeto com mensagem de erro "Invalid email"', () => {
+      expect(response.body).to.be.deep.equal(INVALID_EMAIL);
     });
   });
 
@@ -160,11 +182,14 @@ describe('POST /user', () => {
   });
 });
 
-describe.only('POST /users', () => {
-  const NAME_REQUIRED = { message: 'Name is required' };
-  const EMAIL_REQUIRED = { message: 'Email field is required' };
-  const PASSWORD_REQUIRED = { message: 'Password field is required' };
-  const EMAIL_IN_USE = { message: 'Email already in use' };
+describe('POST /login', () => {
+  const INVALID_USER = { message: 'Usuário inválido' };
+  const INVALID_PASSWORD = { message: 'Senha inválida' };
+
+  const user = {
+    email: "email@email.com",
+    password: "123456",
+  }
   
   let connectionMock;
   let db;
@@ -188,16 +213,104 @@ describe.only('POST /users', () => {
     await db.collection('users').deleteMany({});
   });
 
-  describe(('Quando os campos são válidos'), () => {
+  describe(('Quando o usuário não existe'), () => {
     let response = {};
     
     before(async () => {
-      const {token} = await chai.request(server)
+      response = await chai.request(server)
         .post('/login')
         .send({
-          email: "email@email.com",
-          password: "123456",
+          email: 'invalido@email.com',
+          password: '123456',
         })
+    });
+
+    it('Retorna status 400', () => {
+      expect(response).to.have.status(400);
+    });
+
+    it('Retorna objeto com mensagem de erro "Usuário inválido"', async () => {
+      expect(response.body).to.be.deep.equal(INVALID_USER);
+    });
+  });
+
+  describe(('Quando a senha é inválida'), () => {
+    let response = {};
+    
+    before(async () => {
+      response = await chai.request(server)
+        .post('/login')
+        .send({
+          email: 'email@email.com',
+          password: '1234567',
+        })
+    });
+
+    it('Retorna status 400', () => {
+      expect(response).to.have.status(400);
+    });
+
+    it('Retorna objeto com mensagem de erro "Senha inválida"', async () => {
+      expect(response.body).to.be.deep.equal(INVALID_PASSWORD);
+    });
+  });
+});
+
+
+describe('GET /user', () => {
+  const INVALID_TOKEN = { message: "Expired or invalid token" };
+  const user = {
+    email: "email@email.com",
+    password: "123456",
+  }
+  
+  let connectionMock;
+  let db;
+
+  before(async () => {
+    connectionMock = await connection();
+
+    sinon.stub(MongoClient, 'connect').resolves(connectionMock);
+
+    db = connectionMock.db(DB_NAME);
+
+    await db.collection('users').insertOne({
+      name: "Kevin",
+      email: "email@email.com",
+      password: "123456",
+    });
+  });
+
+  after(async () => {
+    MongoClient.connect.restore();
+    await db.collection('users').deleteMany({});
+  });
+
+  describe(('Quando o token não é válido'), () => {
+    let response = {};
+    
+    before(async () => {
+      response = await chai.request(server)
+        .get('/user')
+        .set('authorization', 'token')
+    });
+
+    it('Retorna status 401', () => {
+      expect(response).to.have.status(401);
+    });
+
+    it('Retorna objeto com mensagem de erro "Expired or invalid token"', async () => {
+      expect(response.body).to.be.deep.equal(INVALID_TOKEN);
+    });
+  });
+
+  describe(('Quando o token é válido'), () => {
+    let response = {};
+    
+    before(async () => {
+      const token = await chai.request(server)
+        .post('/login')
+        .send(user)
         .then((res) => res.body.token)
 
       response = await chai.request(server)
@@ -205,14 +318,12 @@ describe.only('POST /users', () => {
         .set('authorization', token)
     });
 
-    it('Retorna status 201', () => {
-      expect(response).to.have.status(201);
+    it('Retorna status 200', () => {
+      expect(response).to.have.status(200);
     });
 
-    it('Retorna objeto com mensagem de erro "Invalid entries. Try again."', async () => {
-      const dbRecipe = await db.collection('recipes').findOne({ name: "Frango" });
-      const recipe = { ...dbRecipe, _id: dbRecipe._id.toString() }
-      expect(response.body).to.be.deep.equal({ recipe });
+    it('Retorna objeto com dados do usuário', async () => {
+      expect(response.body).to.be.deep.equal({name: 'Kevin', email: user.email});
     });
   });
 });

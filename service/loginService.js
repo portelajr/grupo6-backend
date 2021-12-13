@@ -23,7 +23,6 @@ const loginUser = async (payload) => {
 
   const userWithoutPassword = { name: user.name, email }
   
-  
   return { token: tokenGenerator(userWithoutPassword), user: userWithoutPassword };
 };
   
