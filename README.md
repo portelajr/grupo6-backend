@@ -18,13 +18,13 @@ API desenvolvida para gerenciar as requisições e respostas da aplicação NaLi
 ### Informações técnicas
 
 - Aplicação desenvolvida em Node.JS/ Express
-- O gerenciamento de dados foi deito utilizando o banco de dados MongoDB em duas coleções: usuários e eventos.
-- Alguma validações de rotas foram feitas utilizando a dependencia JOI.
-- O mecanismo de autenticação utilizando foi a dependencia JWT.
+- O gerenciamento de dados foi feito utilizando o banco de dados MongoDB em duas coleções: usuários e eventos.
+- Algumas validações de rotas foram feitas utilizando a dependência JOI.
+- O mecanismo de autenticação utilizando JWT.
 
 ### Rodar localmente
 
-Certifique-se que possui o mongodb instalado e configurado em seu computador.
+Certifique-se que possui o mongodb instalado, configurado e executando o serviço.
 - Clone este repositório
 - instale as dependencias (script: npm install)
 - execute o arquivo inserEvents.mongodb para visualizar os dados (opcional)
