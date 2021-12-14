@@ -1,2 +1,0 @@
-use('Hackapp')
-db.users.find({})
