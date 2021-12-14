@@ -21,7 +21,7 @@ const loginUser = async (payload) => {
     throw err;
   }
 
-  const userWithoutPassword = { name: user.name, email }
+  const userWithoutPassword = { name: user.name, email, userId: user.userId }
   
   return { token: tokenGenerator(userWithoutPassword), user: userWithoutPassword };
 };

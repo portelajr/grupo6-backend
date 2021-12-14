@@ -1,7 +1,6 @@
 const Joi = require('joi');
 
 const newEventSchema = Joi.object({
-  userId: Joi.string().required(),
   img: Joi.string().required(),
   title: Joi.string().required(),
   date: Joi.string().required(),
