@@ -1,4 +1,5 @@
-const events = [
+use('Hackapp')
+db.events.insertMany([
   {
     img: 'https://www.viacomercial.com.br/wp-content/uploads/2017/11/igreja-santa-luzia.jpg',
     title: 'ROMARIA DE SANTA LUZIA',
@@ -89,4 +90,4 @@ const events = [
     type: 'Culturais e Artísticos,',
     protocolPandemic: 'Não informado',
   }
-];
+]);
