@@ -2,14 +2,15 @@
 
 ## Repositório Back-end
 
-API desenvolvida durante o hackaton interturmas da escola técnica Trybe
+API desenvolvida durante o hackathon interturmas da escola de formação técnica Trybe
 De 11/12 a 13/12 de 2021.
 
 ### Sobre a aplicação
+NaLista App - Edição Minas Gerais
 
 A aplicação consiste em um catálogo colaborativo de eventos.
 O foco principal é que os usuários encontrem atividades e eventos próximos para explorar em cidades de um determinado estado.
-É também encorajado que os usuários efetuem um cadastro e contribuam com novas atrações a medida que surgem.
+É também esperado que os usuários efetuem um cadastro e contribuam com novas atrações a medida que surgirem.
 
 API desenvolvida para gerenciar as requisições e respostas da aplicação NaLista App - front-end encontrada neste reposítório :
 - https://github.com/CamilaDamasio/grupo6_frontend
