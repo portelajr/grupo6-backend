@@ -15,7 +15,7 @@ const getAll = async () => {
   const db = await getConnection();
 
   const allEvents = await db.collection('events').find().toArray();
-  console.log(allEvents);
+
   return allEvents;
 };
 
