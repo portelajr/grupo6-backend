@@ -1,11 +1,8 @@
 const eventService = require('../service/eventService');
 
 const createEvent = async (req, res, next) => {
-  const { user: { _id: userId }  } = req;
-  const data = { ...req.body, userId };
-
   try {
-    const event = await eventService.createEvent(data);
+    const event = await eventService.createEvent(req.body);
     return res.status(201).json(event) 
   } catch (err) {
     return next(err);
