@@ -17,7 +17,7 @@ app.get('/event', eventController.getAll);
 app.get('/event/:id', eventController.getById)
 app.post('/event', authMiddleware, eventController.createEvent);
 app.post('/user', userController.createUser);
-app.get('/user', userController.getUserByToken);
+app.get('/user', authMiddleware, userController.getUserByToken);
 app.post('/login', loginController.loginUser);
 
 app.use(errorMiddleware);

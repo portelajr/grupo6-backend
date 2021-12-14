@@ -3,11 +3,11 @@ const newEventSchema = require('../utils/validateEvent');
 const newError = require('../utils/errorGenerator');
 
 const createEvent = async (data) => {
-  console.log(data)
+
   const { error } = newEventSchema.validate(data);
 
   if (error) {
-    console.log(error.message)
+
     const err = newError(400, 'Por favor, preencha todos os campos');
     throw err;
   }
